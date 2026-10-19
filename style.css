@@ -1,0 +1,1009 @@
+/* ====================== */
+/* Reset + Theme Tokens */
+/* ====================== */
+*{
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --pad-off-bg: #333333;
+    --pad-off-ring: #4f5054;
+}
+
+/* ================== */
+/* Global Page Shell */
+/* ================== */
+
+html{
+    font-family: "Arial";
+    color: white;
+    background-color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+body{
+    padding: clamp(8px, 2vmin, 24px);
+    background-color: rgb(0, 0, 0);
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    font-family: "Arial";
+}
+
+/* ====================== */
+/* Title Card (initial)   */
+/* ====================== */
+.title-card {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, rgba(0,0,0,0.95), rgba(0,0,0,0.9));
+    z-index: 60;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    transition: opacity 400ms ease, transform 400ms ease;
+    cursor: pointer;
+}
+
+.title-card .enter-hint {
+    margin-top: 1rem;
+    opacity: 0.65;
+    font-size: clamp(0.78rem, 1.8vmin, 0.95rem);
+    letter-spacing: 0.04em;
+}
+
+.title-card-content h1{
+    font-size: clamp(1.6rem, 6vmin, 4rem);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.4rem;
+}
+
+.title-card .subtitle{
+    opacity: 0.9;
+    font-size: clamp(0.9rem, 2.4vmin, 1.2rem);
+}
+
+.title-card.fade-out{
+    animation: titleFadeOut 700ms ease forwards;
+}
+
+@keyframes titleFadeOut{
+    from { opacity: 1; transform: scale(1); }
+    to   { opacity: 0; transform: scale(0.98); visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .title-card, .title-card.fade-out { transition: none; animation: none; }
+}
+
+main{
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: clamp(6px, 1.5vmin, 16px);
+}
+
+
+h1{
+    margin: 30px 0;
+    font-size: clamp(0.7rem, 1.4vmin, 1.1rem);
+}
+
+/* ===================== */
+/* Layout: Frame + Grid */
+/* ===================== */
+/* Standalone upper-right button (outside launchpad) */
+.upper-right-control {
+    position: fixed;
+    top: 0.8rem;
+    right: 0.8rem;
+    z-index: 20;
+}
+
+.upper-right-button {
+    width: clamp(36px, 3.2vmin, 70px);
+    height: clamp(36px, 3.2vmin, 70px);
+    border-radius: 50%;
+    display: inline-grid;
+    place-items: center;
+}
+
+.container-frame{
+    width: min(94vmin, 1100px);
+    max-width: 100%;
+    aspect-ratio: 1 / 1;   /* forces square shape */
+    border: 0.25px solid #4f4f4f;
+    border-radius: 0;      /* square corners */
+    box-sizing: border-box;
+    margin-inline: auto;
+    background-color: #1b1b1b;
+}
+
+.container{
+    --pad-columns: 4;
+    --pad-rows: 4;
+    --pad-gap: clamp(6px, 1vmin, 12px);
+    --top-label-gap: clamp(0px, 0.25vmin, 1px);
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin-inline: auto;
+    display:grid;
+    min-height: auto;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) clamp(110px, 14vmin, 180px);
+    grid-template-rows: auto auto;
+    grid-template-areas:
+    "top top top top clear"
+    "pads pads pads pads side";
+    gap: clamp(8px, 1.2vmin, 16px);
+    padding: clamp(10px, 1.8vmin, 20px) clamp(10px, 1.8vmin, 20px) 0;
+    border: 14px;
+    overflow: hidden;
+    box-shadow:
+    -2px -2px 5px #28292b,
+    2px 2px 5px #1c1a1a,
+    inset -2px -2px 5px #1c1a1a,
+    inset 2px 2px 5px #272728;
+}
+
+.container > *{
+    min-width:0;
+    min-height:0;
+}
+
+/* =========================== */
+/*    Modal and Dialog Popups  */
+/* =========================== */
+
+.modal{
+    max-width: 50ch;
+
+    & > *{
+        margin: 0 0 0.5rem 0;
+    }
+}
+
+dialog::backdrop{
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    margin: 0;
+    background-color: black;
+    color: white;
+    border-color: #cc66ff;
+    border-width: 1px;
+    width: clamp(560px, 88vw, 1120px);
+    height: clamp(460px, 88vh, 820px);
+    border-radius: 18px;
+}
+
+#padDialog {
+    padding: 1.1rem 1.35rem;
+}
+
+#padDialog[open] {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    animation: padDialogIn 180ms ease;
+}
+
+#padDialogTitle {
+    font-size: clamp(2rem, 2.2vw, 3rem);
+    margin: 0;
+}
+
+#padDialogMedia {
+    display: grid;
+    place-items: center;
+    min-height: clamp(220px, 40vh, 420px);
+}
+
+.pad-dialog-media-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: -0.1rem;
+    font-size: 0.95rem;
+}
+
+.pad-dialog-media-controls button {
+    padding: 0.4rem 0.75rem;
+    border: 1px solid #828181;
+    border-radius: 999px;
+    background-color: #111;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+}
+
+.pad-dialog-media-controls button:hover:not(:disabled) {
+    background-color: #262626;
+}
+
+.pad-dialog-media-controls button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+#padDialogImage,
+#padDialogVideo {
+    border-radius: 8px;
+    justify-self: center;
+    align-self: center;
+    object-fit: contain;
+}
+
+#padDialogImage {
+    width: min(100%, 680px);
+    max-height: 48vh;
+    height: auto;
+}
+
+#padDialogVideo {
+    width: min(100%, 760px);
+    height: clamp(260px, 42vh, 520px);
+    max-height: 52vh;
+    background-color: #000;
+}
+
+#padDialogEmbed {
+    width: min(100%, 760px);
+    height: clamp(260px, 42vh, 520px);
+    max-height: 52vh;
+    background-color: #000;
+}
+
+#padDialogImage[hidden],
+#padDialogVideo[hidden] {
+    display: none !important;
+}
+
+#padDialogImage.is-square {
+    width: min(100%, 540px);
+    height: auto;
+    max-height: 44vh;
+}
+
+#padDialogImage.is-rectangle.is-landscape {
+    width: min(100%, 760px);
+    height: auto;
+    max-height: 48vh;
+}
+
+#padDialogImage.is-rectangle.is-portrait {
+    width: min(100%, 460px);
+    height: auto;
+    max-height: 52vh;
+}
+
+#padDialogMessage {
+    margin: 0;
+    white-space: pre-line;
+    align-self: top;
+    flex: 1;
+    font-size: clamp(1.1rem, 1.5vmin, 1.5rem);
+    line-height: 1.45;
+}
+
+#padDialogSkills {
+    margin: 0;
+    display: block;
+    white-space: pre-line;
+    text-align: center;
+    font-size: clamp(0.95rem, 1.2vmin, 1.1rem);
+    line-height: 1.35;
+    color: #d9d9d9;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+    margin-top: auto;
+}
+
+#padDialog .dialog-actions button {
+    padding: 0.55rem 1rem;
+    min-width: 5.5rem;
+    border: 1px solid #828181;
+    border-radius: 999px;
+    background-color: #111;
+    color: white;
+    font: inherit;
+    line-height: 1;
+    cursor: pointer;
+}
+
+#padDialog .dialog-actions button:hover:not(:disabled) {
+    background-color: #262626;
+}
+
+#padDialog .dialog-actions button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+@keyframes padDialogIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =================== */
+/* Pad: Base + States */
+/* =================== */
+
+.pad{
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: 0;
+    display:grid;
+    place-items: center;
+    padding:clamp(0.45rem, 1.2vmin, 1rem);
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: var(--pad-off-bg);
+    text-align: center;
+    box-shadow: 
+    -5px -5px 10px #28292b,
+    5px 5px 10px #1c1a1a,
+    inset -5px -5px 10px #1c1a1a,
+    inset 5px 5px 10px #4f5054;
+    transition:
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
+.pad:not(.active):hover{
+    background-color: #4f5054;
+}
+
+.pad.active:hover{
+    filter: brightness(1.25);
+}
+
+.pad.active{
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+}
+
+.pad.active[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 200;
+    border: 1px solid #666;
+}
+
+.pad.active:hover[data-tooltip]::after {
+    opacity: 1;
+}
+
+.pad.active[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 200;
+}
+
+.pad.active:hover[data-tooltip]::before {
+    opacity: 1;
+}
+
+.pad.active {
+    position: relative;
+}
+
+/* Disable old pseudo-element tooltips (we use a floating tooltip instead) */
+.pad[data-tooltip]::after, .pad[data-tooltip]::before { display: none !important; }
+
+/* Floating tooltip appended to body */
+.floating-tooltip{
+    position: fixed;
+    z-index: 1000;
+    background: rgba(0,0,0,0.92);
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    border: 1px solid #666;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    pointer-events: none;
+    transform-origin: top center;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+/* ================= */
+/* Pad Scene Colors */
+/* ================= */
+.pad.scene-linkedin {
+    background-color: #0077b5;
+    box-shadow:
+    -5px -5px 10px #203c4a,
+    5px 5px 10px #004471,
+    inset -5px -5px 10px #4ea7e3,
+    inset 5px 5px 10px #9fe1ff;
+}
+
+.pad.scene-github {
+    background-color: #FFFFFF;
+    box-shadow:
+    -5px -5px 10px #1c1a1a,
+    5px 5px 10px #6f6f6f,
+    inset -5px -5px 10px #6f6f6f,
+    inset 5px 5px 10px #1c1a1a;
+}
+
+.pad.scene-resume {
+    background-color: #f90000;
+    box-shadow: 
+    -5px -5px 10px #380202,
+    5px 5px 10px #a90606,
+    inset -5px -5px 10px #ec4141,
+    inset 5px 5px 10px #fda8a8;
+}
+
+.pad.scene-contact {
+    background-color: #00ff11;
+    box-shadow:
+    -5px -5px 10px #234a20,
+    5px 5px 10px #157100,
+    inset -5px -5px 10px #64e34e,
+    inset 5px 5px 10px #9fffaa;
+}
+
+.pad.scene-about {
+    background-color: #e45474;
+    box-shadow:
+    -5px -5px 10px #4a202d,
+    5px 5px 10px #710015,
+    inset -5px -5px 10px #e34e82,
+    inset 5px 5px 10px #ff9fba;
+}
+
+.pad.scene-skills {
+    background-color: #ff8c00;
+    box-shadow:
+    -5px -5px 10px #4a2a00,
+    5px 5px 10px #713800,
+    inset -5px -5px 10px #ff9f3f,
+    inset 5px 5px 10px #ffcba8;
+}
+
+.pad.scene-kitware {
+    background-color: #3daf4a;
+    box-shadow:
+    -5px -5px 10px #1c3a20,
+    5px 5px 10px #0b6e00,
+    inset -5px -5px 10px #64e34e,
+    inset 5px 5px 10px #9fffaa;
+}
+
+.pad.scene-griffiss {
+    background-color: #007a9b;
+    box-shadow:
+    -5px -5px 10px #1c2f4a,
+    5px 5px 10px #003d71,
+    inset -5px -5px 10px #4ea7e3,
+    inset 5px 5px 10px #9fe1ff;
+}
+
+.pad.scene-northeastern {
+    background-color: #c8102e;
+    box-shadow:
+    -5px -5px 10px #4a1c20,
+    5px 5px 10px #710000,
+    inset -5px -5px 10px #e34e4e,
+    inset 5px 5px 10px #ff9f9f;
+}
+
+.pad.scene-mitbeaverworks {
+    background-color: #a31f34;
+    box-shadow:
+    -5px -5px 10px #4a1c20,
+    5px 5px 10px #710000,
+    inset -5px -5px 10px #e34e4e,
+    inset 5px 5px 10px #ff9f9f;
+}
+
+.pad.scene-wic {
+    background-color: #784c9c;
+    box-shadow:
+    -5px -5px 10px #3a1c4a,
+    5px 5px 10px #4b0071,
+    inset -5px -5px 10px #b064e3,
+    inset 5px 5px 10px #d89fff;
+}
+
+.pad.scene-coms {
+    background-color: #21bde5;
+    box-shadow:
+    -5px -5px 10px #1c2f4a,
+    5px 5px 10px #003d71,
+    inset -5px -5px 10px #4ea7e3,
+    inset 5px 5px 10px #9fe1ff;
+}
+
+.pad.scene-ai {
+    background-color: #e66709;
+    box-shadow:
+    -5px -5px 10px #4a2a00,
+    5px 5px 10px #713800,
+    inset -5px -5px 10px #ff9f3f,
+    inset 5px 5px 10px #ffcba8;
+}
+
+.pad.scene-sigma {
+    background-color: #6b47d6;
+    box-shadow:
+    -5px -5px 10px #3a1c4a,
+    5px 5px 10px #4b0071,
+    inset -5px -5px 10px #b064e3,
+    inset 5px 5px 10px #d89fff;
+}
+
+.pad.scene-gso {
+    background-color: #ffff00;
+    box-shadow:
+    -5px -5px 10px #4a4a1c,
+    5px 5px 10px #717100,
+    inset -5px -5px 10px #ffff64,
+    inset 5px 5px 10px #ffff9f;
+}
+
+.pad.scene-csh{
+    background-color: #ff0080;
+    box-shadow:
+    -5px -5px 10px #b30059,
+    5px 5px 10px #800040,
+    inset -5px -5px 10px #ff4da6,
+    inset 5px 5px 10px #ffd6ec;
+}
+
+.pad.scene-artsonna{
+    background-color: #f28db8;
+    box-shadow:
+    -5px -5px 10px #5a2740,
+    5px 5px 10px #7c2f54,
+    inset -5px -5px 10px #ffc0dc,
+    inset 5px 5px 10px #ffe3ef;
+}
+
+.pad.scene-musictheoryagent{
+    background-color: #8d75f7;
+    box-shadow:
+    -5px -5px 10px #30245f,
+    5px 5px 10px #493493,
+    inset -5px -5px 10px #b9aaff,
+    inset 5px 5px 10px #ddd5ff;
+}
+
+.pad.scene-maara{
+    background-color: #696969;
+    box-shadow:
+    -5px -5px 10px #9c9c9c,
+    5px 5px 10px #1b1b1b,
+    inset -5px -5px 10px #ffffff,
+    inset 5px 5px 10px #000000;
+}
+
+.pad.scene-moody{
+    background-color: #26c7f8;
+    box-shadow:
+    -5px -5px 10px #00303f,
+    5px 5px 10px #004251,
+    inset -5px -5px 10px #43bee3,
+    inset 5px 5px 10px #93e3fb;
+}
+
+.pad.scene-frequencyprint{
+    background-color: #184105;
+    box-shadow:
+    -5px -5px 10px #0f2c01,
+    5px 5px 10px #145614,
+    inset -5px -5px 10px #4cbb17,
+    inset 5px 5px 10px #adfb8a;
+}
+
+.pad.scene-orderup{
+    background-color: #f6d5ff;
+    box-shadow:
+    -5px -5px 10px #4a1c4a,
+    5px 5px 10px #710071,
+    inset -5px -5px 10px #e34ee3,
+    inset 5px 5px 10px #ff9fe1;
+}
+
+.pad.scene-resopulse {
+    background-color: #653c3c;
+    box-shadow:
+    -5px -5px 10px #321c1c,
+    5px 5px 10px #4b0000,
+    inset -5px -5px 10px #9f6464,
+    inset 5px 5px 10px #d89f9f;
+}
+
+.pad.scene-underthesea {
+    background-color: #249c92;
+    box-shadow:
+    -5px -5px 10px #1c4a47,
+    5px 5px 10px #004b46,
+    inset -5px -5px 10px #64e3dc,
+    inset 5px 5px 10px #9fffe0;
+}
+
+.pad.scene-virtualcloset {
+    background-color: #72d2fe;
+    box-shadow:
+    -5px -5px 10px #1c2f4a,
+    5px 5px 10px #003d71,
+    inset -5px -5px 10px #4ea7e3,
+    inset 5px 5px 10px #9fe1ff;
+}
+
+.pad.scene-visualdove{
+    background-color: #e552fa;
+    box-shadow:
+    -5px -5px 10px #4a1c4a,
+    5px 5px 10px #710071,
+    inset -5px -5px 10px #e34ee3,
+    inset 5px 5px 10px #ff9fe1;
+}
+
+.pad.scene-virtualkaraoke{
+    background-color: #3330c1;
+    box-shadow:
+    -5px -5px 10px #1c1a4a,
+    5px 5px 10px #000071,
+    inset -5px -5px 10px #4e4ee3,
+    inset 5px 5px 10px #9f9fe1;
+}
+
+.pad.scene-myergbuddy{
+    background-color: #21ff45;
+    box-shadow:
+    -5px -5px 10px #1c4a20,
+    5px 5px 10px #004b00,
+    inset -5px -5px 10px #64e34e,
+    inset 5px 5px 10px #9fffaa;
+}
+
+.pad.scene-brickstein{
+    background-color: #ff5758;
+    box-shadow:
+    -5px -5px 10px #4a1c1c,
+    5px 5px 10px #710000,
+    inset -5px -5px 10px #e34e4e,
+    inset 5px 5px 10px #ff9f9f;
+}
+
+.pad.scene-securecheckup{
+    background-color: #04b4fc;
+    box-shadow:
+    -5px -5px 10px #1c2f4a,
+    5px 5px 10px #003d71,
+    inset -5px -5px 10px #4ea7e3,
+    inset 5px 5px 10px #9fe1ff;
+}
+
+.pad.scene-acertainconvexhull{
+    background-color: #bbc7fe;
+    box-shadow:
+    -5px -5px 10px #1c2f4a,
+    5px 5px 10px #003d71,
+    inset -5px -5px 10px #4ea7e3,
+    inset 5px 5px 10px #9fe1ff;
+}
+
+.pad.scene-echoflower{
+    background-color: #41abc9;
+    box-shadow:
+    -5px -5px 10px #1c2f4a,
+    5px 5px 10px #003d71,
+    inset -5px -5px 10px #4ea7e3,
+    inset 5px 5px 10px #9fe1ff;
+}
+
+.pad.scene-spotiphy{
+    background-color: #d7896d;
+    box-shadow:
+    -5px -5px 10px #4a1c1c,
+    5px 5px 10px #710000,
+    inset -5px -5px 10px #e34e4e,
+    inset 5px 5px 10px #ff9f9f;
+}
+
+.pad.scene-fibonacci{
+    background-color: #48ce85;
+    box-shadow:
+    -5px -5px 10px #1c4a20,
+    5px 5px 10px #004b00,
+    inset -5px -5px 10px #64e34e,
+    inset 5px 5px 10px #9fffaa;
+}
+
+.pad.scene-areyousocialdistancing{
+    background-color: #1b2ffd;
+    box-shadow:
+    -5px -5px 10px #1c1a4a,
+    5px 5px 10px #000071,
+    inset -5px -5px 10px #4e4ee3,
+    inset 5px 5px 10px #9f9fe1;
+}
+
+.pad.scene-music1{
+    background-color: #ed6ab9;
+    box-shadow:
+    -5px -5px 10px #4a1c4a,
+    5px 5px 10px #710071,
+    inset -5px -5px 10px #e34ee3,
+    inset 5px 5px 10px #ff9fe1;
+}
+
+.pad.scene-music2{
+    background-color: #f0307d;
+    box-shadow:
+    -5px -5px 10px #4a1c4a,
+    5px 5px 10px #710071,
+    inset -5px -5px 10px #e34ee3,
+    inset 5px 5px 10px #ff9fe1;
+}
+
+/* ================================ */
+/* Pad Clear Animation + A11y Motion */
+/* ================================ */
+
+.pad.is-clearing {
+    animation: padFadeOut 160ms ease forwards;
+}
+
+@keyframes padFadeOut{
+    from {filter: brightness(1.05);}
+    to {
+        background-color: var(--pad-off-bg);
+        box-shadow: none;
+        filter: brightness(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .pad {
+        transition: none;
+    }
+    .pad.is-clearing {
+        animation: none;
+    }
+}
+
+/* ==================== */
+/* Top Controls + Text */
+/* ==================== */
+
+.top-label{
+    font-size: clamp(1rem, 1.1vmin, 1.5rem);
+    letter-spacing: 0.08em;
+    color: white;
+    display: block;
+    white-space: nowrap;
+    line-height: 1;
+    margin-top: 1px;
+    text-align: center;
+}
+
+.top-controls {
+    display: grid;
+    grid-template-columns: repeat(var(--pad-columns), minmax(0, 1fr));
+    gap: var(--pad-gap);
+    justify-items: center;
+    align-items: start;
+    width: 100%;
+    padding: 0;
+}
+
+.top-controls-wrap {
+    grid-area: top;
+    display: grid;
+    gap: clamp(4px, 0.8vmin, 10px);
+    position: relative;
+    z-index: 30;
+}
+
+
+.clear-control{
+    grid-area: clear;
+    display: grid;
+    justify-items: center;
+    align-items: start;
+}
+
+.top-control-item{
+    display: grid;
+    grid-template-rows: auto auto;
+    justify-items: center;
+    align-items: start;
+    align-content: start;
+    gap: var(--top-label-gap);
+    min-width: 0;
+}
+
+/* ================ */
+/* Button Controls */
+/* ================ */
+
+.button{
+    display: inline-block;
+    width: clamp(30px, 3.2vmin, 70px);
+    height: clamp(30px, 3.2vmin, 70px);
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 0.5px solid #828181;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: -1px -1px 3px #6f6f6f,
+    -1px -1px 3px #1c1a1a,
+    inset -1px -1px 3px #1c1a1a,
+    inset -1px -1px 3px #6f6f6f;
+}
+
+.button:hover{
+    background-color: #6f6f6f;
+}
+
+/* ========================== */
+/* Pad Matrix + Side Controls */
+/* ========================== */
+
+.led-pads{
+    grid-area: pads;
+    display:grid;
+    border: 1px solid black;
+    grid-template-columns: repeat(var(--pad-columns), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--pad-rows), minmax(0, 1fr));
+    gap: var(--pad-gap);
+    aspect-ratio: 1/1;
+    cursor:pointer;
+    width: 100%;
+}
+
+/* Scroll wrapper and buttons for larger pad sets */
+.pads-area{
+    position: relative;
+    grid-area: pads;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    align-items: center;
+}
+
+.pads-scroll-wrapper{
+    overflow-y: auto;
+    overflow-x: hidden; /* prevent horizontal scrollbar under pads */
+    width: 100%;
+    height: 100%;
+    scroll-behavior: smooth;
+}
+
+.pads-scroll-btn{
+    width: clamp(36px, 3.2vmin, 48px);
+    height: clamp(36px, 3.2vmin, 48px);
+    display: grid;
+    place-items: center;
+    opacity: 0.95;
+}
+
+/* When arrows are placed in the side controls, lay them out vertically */
+.side-control-row.arrows-row .side-control-arrows{
+    display: flex;
+    flex-direction: column;
+    gap: clamp(6px, 1vmin, 10px);
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.side-control-row.arrows-row .pads-scroll-btn{
+    position: static;
+    transform: none;
+    left: auto;
+}
+
+.side-controls{
+    grid-area: side;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(var(--pad-rows), minmax(0, 1fr));
+    gap: var(--pad-gap);
+    width: 100%;
+    height: 100%;
+    justify-self: stretch;
+    align-items: stretch;
+    position: relative;
+}
+
+.side-control-row.arrows-row{
+    position: absolute; /* remove from normal flow so it doesn't change grid sizing */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* allow clicks to pass through except for the buttons */
+    z-index: 20;
+}
+
+.side-control-row.arrows-row .side-control-arrows{
+    display: flex;
+    flex-direction: column;
+    gap: clamp(6px, 1vmin, 10px);
+    align-items: center;
+    justify-content: center;
+}
+
+.side-control-row.arrows-row .side-label { display: none; }
+
+.side-control-row.arrows-row .pads-scroll-btn{
+    pointer-events: auto; /* buttons remain interactive */
+}
+
+.side-control-row{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    height: 100%;
+    align-items: center;
+    gap: clamp(6px, 1vmin, 12px);
+}
+
+.side-label{
+    font-size: clamp(1rem, 0.9vmin, 1.5rem);
+    color: white;
+    text-align: left;
+    white-space: nowrap;
+}
